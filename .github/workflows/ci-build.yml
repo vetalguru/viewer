@@ -1,0 +1,53 @@
+name: Build (main) 
+
+on: push
+
+env:
+  BUILD_DIR_NAME: BUILD
+
+jobs:
+  static_analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+     - uses: actions/checkout@v2
+    
+     - name: Install CPP lint package
+       run: pip install cpplint
+
+     - name: Run clang-format lint static analyze
+       uses: DoozyX/clang-format-lint-action@v0.13
+       with:
+         source: '.'
+         extensions: 'c,cpp,h,hpp' 
+         clangFormatVersion: 13
+
+  build:
+    needs:
+      static_analyze
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build_type: [Release, Debug]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Get repo with submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Create ${{ matrix.os }} ${{ matrix.build_type }}  build folder
+        shell: bash
+        run: cmake -E make_directory ${{ github.workspace }}/${{ env.BUILD_DIR_NAME }}
+
+      - name: Configure CMake with ${{ matrix.build_type }} build type
+        working-directory: ${{ github.workspace }}/${{ env.BUILD_DIR_NAME}}
+        shell: bash
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type}}
+
+      - name: Build solution
+        working-directory: ${{ github.workspace }}/${{ env.BUILD_DIR_NAME}}
+        shell: bash
+        run: cmake --build .
