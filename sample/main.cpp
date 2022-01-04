@@ -4,7 +4,9 @@
 
 #include <iostream>
 
+#include "testfile.hpp"
+
 int main() {
-  std::cout << "Hello World!" << std::endl;
+  std::cout << return_42() << std::endl;
   return 0;
 }
