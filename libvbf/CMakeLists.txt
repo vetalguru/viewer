@@ -8,3 +8,5 @@ set(SOURCES src/testfile.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES} ${INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+add_subdirectory(tests)
