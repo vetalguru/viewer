@@ -7,12 +7,8 @@
 #include <string>
 
 #include "json_parser.hpp"
-#include "testfile.hpp"
 
 int main(int argc, char *argv[]) {
-
-  std::cout << return_42() << std::endl;
-
   if (argc != 2) {
     std::cerr << "Usage: vbf_viewer <filename>" << std::endl;
     return EXIT_FAILURE;

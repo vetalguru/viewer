@@ -2,11 +2,9 @@ cmake_minimum_required(VERSION 3.15)
 
 project(vbf LANGUAGES CXX)
 
-set(PUBLIC_INCLUDES include/testfile.hpp
-                    include/json_parser.hpp)
+set(PUBLIC_INCLUDES include/json_parser.hpp)
 
-set(SOURCES src/testfile.cpp
-            src/json_parser.cpp)
+set(SOURCES src/json_parser.cpp)
 
 add_library(
     ${PROJECT_NAME}
