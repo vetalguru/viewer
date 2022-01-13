@@ -13,12 +13,24 @@ JsonParser::~JsonParser() {}
 
 bool JsonParser::IsValid() const { return root_ != nullptr; }
 
-void JsonParser::Print() const { PrintJson(std::cout, root_); }
+void JsonParser::Print() const {
+  if (IsValid())
+    PrintJson(std::cout, root_);
+}
 
 boost::json::value JsonParser::ParseJsonString(const std::string &json_string) {
   boost::json::stream_parser parser;
-  parser.write(json_string);
-  return parser.release();
+
+  boost::json::value result = nullptr;
+
+  try {
+    parser.write(json_string);
+    result = parser.release();
+  } catch (...) {
+    result = nullptr;
+  }
+
+  return result;
 }
 
 void JsonParser::PrintJson(std::ostream &os, boost::json::value const &node,
