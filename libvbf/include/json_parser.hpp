@@ -5,6 +5,8 @@
 
 #include "boost/json/value.hpp"
 
+namespace json {
+
 class JsonParser {
 public:
   explicit JsonParser(const std::string &json_string);
@@ -22,5 +24,7 @@ private:
 private:
   boost::json::value root_{nullptr};
 };
+
+} // namespace json
 
 #endif // JSONPARSER_HPP
