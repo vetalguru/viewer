@@ -5,6 +5,8 @@
 #include "boost/json.hpp"
 #include "boost/json/src.hpp"
 
+namespace json {
+
 JsonParser::JsonParser(const std::string &json_string) {
   root_ = ParseJsonString(json_string);
 }
@@ -112,3 +114,5 @@ void JsonParser::PrintJson(std::ostream &os, boost::json::value const &node,
     os << "\n";
   }
 }
+
+} // namespace json
