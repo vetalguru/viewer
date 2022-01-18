@@ -7,25 +7,25 @@
 
 namespace json {
 
-JsonParser::JsonParser(const std::string &json_string) {
+JSONDocument::JSONDocument(const std::string &json_string) {
   root_ = ParseJsonString(json_string);
 }
 
-JsonParser::~JsonParser() {}
+JSONDocument::~JSONDocument() {}
 
-bool JsonParser::IsValid() const { return root_ != nullptr; }
+bool JSONDocument::IsValid() const { return root_ != nullptr; }
 
-void JsonParser::Print() const {
+void JSONDocument::Print() const {
   if (IsValid())
     PrintJson(std::cout, root_);
 }
 
-boost::json::value JsonParser::ParseJsonString(const std::string &json_string) {
-  boost::json::stream_parser parser;
-
+boost::json::value
+JSONDocument::ParseJsonString(const std::string &json_string) {
   boost::json::value result = nullptr;
 
   try {
+    boost::json::stream_parser parser;
     parser.write(json_string);
     result = parser.release();
   } catch (...) {
@@ -35,8 +35,8 @@ boost::json::value JsonParser::ParseJsonString(const std::string &json_string) {
   return result;
 }
 
-void JsonParser::PrintJson(std::ostream &os, boost::json::value const &node,
-                           std::string indent) const {
+void JSONDocument::PrintJson(std::ostream &os, boost::json::value const &node,
+                             std::string indent) const {
   switch (node.kind()) {
   case boost::json::kind::object: {
     os << "{\n";
