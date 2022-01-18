@@ -7,10 +7,10 @@
 
 namespace json {
 
-class JsonParser {
+class JSONDocument {
 public:
-  explicit JsonParser(const std::string &json_string);
-  virtual ~JsonParser();
+  explicit JSONDocument(const std::string &json_string);
+  virtual ~JSONDocument();
 
   bool IsValid() const;
   void Print() const;
