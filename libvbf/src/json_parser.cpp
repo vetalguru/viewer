@@ -7,11 +7,17 @@
 
 namespace json {
 
-JSONDocument::JSONDocument(const std::string &json_string) {
-  root_ = ParseJsonString(json_string);
-}
+JSONDocument::JSONDocument() {}
 
 JSONDocument::~JSONDocument() {}
+
+void JSONDocument::Parse(const std::string &json_string) noexcept {
+  try {
+    root_ = ParseJsonString(json_string);
+  } catch (...) {
+    root_ = nullptr;
+  }
+}
 
 bool JSONDocument::IsValid() const { return root_ != nullptr; }
 
