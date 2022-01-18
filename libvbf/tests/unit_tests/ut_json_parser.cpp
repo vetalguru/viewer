@@ -2,42 +2,46 @@
 
 #include "json_parser.hpp"
 
-TEST(JsonParser, IsValid_Success) {
+TEST(JsonParser, JSONDocument_IsValid_Success) {
   std::string test_json_string{"{\"valid\":\"json\"}"};
-  json::JSONDocument parser(test_json_string);
+  json::JSONDocument doc;
+  doc.Parse(test_json_string);
 
-  EXPECT_TRUE(parser.IsValid());
+  EXPECT_TRUE(doc.IsValid());
 }
 
-TEST(JsonParser, IsValid_Fail) {
+TEST(JsonParser, JSONDocument_IsValid_Fail) {
   std::string test_json_string{"invalid json"};
-  json::JSONDocument parser(test_json_string);
+  json::JSONDocument doc;
+  doc.Parse(test_json_string);
 
-  EXPECT_FALSE(parser.IsValid());
+  EXPECT_FALSE(doc.IsValid());
 }
 
-TEST(JsonParser, Print_Success) {
+TEST(JsonParser, JSONDocument_Print_Success) {
   std::string test_json_string{"{\"valid\":\"json\"}"};
   std::string expected_json_string{"{\n    \"valid\" : \"json\"\n}\n"};
-  json::JSONDocument parser(test_json_string);
+  json::JSONDocument doc;
+  doc.Parse(test_json_string);
 
-  ASSERT_TRUE(parser.IsValid());
+  ASSERT_TRUE(doc.IsValid());
 
   testing::internal::CaptureStdout();
-  parser.Print();
+  doc.Print();
   std::string output = testing::internal::GetCapturedStdout();
   ASSERT_FALSE(output.empty());
   EXPECT_EQ(expected_json_string, output);
 }
 
-TEST(JsonParser, Print_Fail) {
+TEST(JsonParser, JSONDocument_Print_Fail) {
   std::string test_json_string{"invalid json"};
-  json::JSONDocument parser(test_json_string);
+  json::JSONDocument doc;
+  doc.Parse(test_json_string);
 
-  ASSERT_FALSE(parser.IsValid());
+  ASSERT_FALSE(doc.IsValid());
 
   testing::internal::CaptureStdout();
-  parser.Print();
+  doc.Print();
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_TRUE(output.empty());
 }

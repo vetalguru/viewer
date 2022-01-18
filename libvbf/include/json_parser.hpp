@@ -9,8 +9,10 @@ namespace json {
 
 class JSONDocument {
 public:
-  explicit JSONDocument(const std::string &json_string);
+  JSONDocument();
   virtual ~JSONDocument();
+
+  void Parse(const std::string &json_string) noexcept;
 
   bool IsValid() const;
   void Print() const;
