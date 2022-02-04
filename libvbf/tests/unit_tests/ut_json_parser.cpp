@@ -20,7 +20,7 @@ TEST(JsonParser, JSONDocument_IsValid_Fail) {
 
 TEST(JsonParser, JSONDocument_Print_Success) {
   std::string test_json_string{"{\"valid\":\"json\"}"};
-  std::string expected_json_string{"{\n    \"valid\" : \"json\"\n}\n"};
+  std::string expected_json_string{"{\n    \"valid\": \"json\"\n}\n"};
   json::JSONDocument doc;
   doc.Parse(test_json_string);
 
