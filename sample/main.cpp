@@ -14,17 +14,13 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  try {
-    auto const filename = argv[1];
-    std::ifstream file(filename, std::ifstream::in);
-    std::string input(std::istreambuf_iterator<char>(file), {});
-    json::JSONDocument json;
-    json.Parse(input);
-    if (json.IsValid())
-      json.Print();
-  } catch (std::exception const &e) {
-    std::cerr << "Ecxeption: " << e.what() << std::endl;
-    return EXIT_FAILURE;
+  auto const filename = argv[1];
+  std::ifstream file(filename, std::ifstream::in);
+  std::string input(std::istreambuf_iterator<char>(file), {});
+  json::JSONDocument json;
+  json.Parse(input);
+  if (json.IsValid()) {
+    json.Print();
   }
 
   return EXIT_SUCCESS;

@@ -9,71 +9,78 @@
 
 namespace json {
 
+class JSONDocument;
+
+class JSONNode {
+public:
+  enum class DataType : unsigned char {
+    NULL_TYPE = 0,
+    OBJECT_TYPE,
+    ARRAY_TYPE,
+    STRING_TYPE,
+    UINT64_TYPE,
+    INT64_TYPE,
+    DOUBLE_TYPE,
+    BOOL_TYPE,
+  };
+
+public:
+  JSONNode() = default;
+  JSONNode(const JSONNode &) = default;
+  JSONNode(JSONNode &&) = default;
+  JSONNode(const boost::json::value &value) noexcept : node_(value) {}
+
+  JSONNode &operator=(const JSONNode &) = default;
+  JSONNode &operator=(JSONNode &&) = default;
+
+  ~JSONNode() = default;
+
+public:
+  bool IsValid() const noexcept;
+
+  DataType Type() const noexcept;
+
+  bool IsObject() const noexcept;
+  bool IsArray() const noexcept;
+  bool IsString() const noexcept;
+  bool IsUint64() const noexcept;
+  bool IsInt64() const noexcept;
+  bool IsDouble() const noexcept;
+  bool IsBool() const noexcept;
+  bool IsNull() const noexcept;
+
+  bool GetObjectNodes(std::vector<std::pair<std::string, JSONNode>>
+                          &object_value) const noexcept;
+  bool GetArrayNodes(std::vector<JSONNode> &array_value) const noexcept;
+  bool GetStringValue(std::string &string_value) const noexcept;
+  bool GetUInt64Value(uint64_t &uint64_value) const noexcept;
+  bool GetInt64Value(int64_t &int64_value) const noexcept;
+  bool GetDoubleValue(double &doulbe_value) const noexcept;
+  bool GetBoolValue(bool &bool_value) const noexcept;
+
+private:
+  boost::json::value node_;
+};
+
 class JSONDocument {
 public:
-  JSONDocument();
-  virtual ~JSONDocument();
+  JSONDocument() = default;
+  ~JSONDocument() = default;
 
+public:
   void Parse(const std::string &json_string) noexcept;
 
   bool IsValid() const;
   void Print() const;
 
 private:
-  enum class DataType : unsigned char {
-    UNKNOWN_TYPE,
-    NULL_TYPE,
-    BOOL_TYPE,
-    INT64_TYPE,
-    UINT64_TYPE,
-    DOUBLE_TYPE,
-    STRING_TYPE,
-    ARRAY_TYPE,
-    OBJECT_TYPE,
-  };
+  JSONNode ParseJsonString(const std::string &json_string) noexcept;
 
-private:
-  boost::json::value ParseJsonString(const std::string &json_string);
-
-  void PrintJson(std::ostream &os, boost::json::value const &node,
+  void PrintJson(std::ostream &os, const JSONNode &node,
                  std::string indent = std::string()) const;
 
-  bool IsBool(boost::json::value const &node) const noexcept;
-  bool GetBoolValue(boost::json::value const &node,
-                    bool &bool_value) const noexcept;
-
-  bool IsDouble(boost::json::value const &node) const noexcept;
-  bool GetDoubleValue(boost::json::value const &node,
-                      double &doulbe_value) const noexcept;
-
-  bool IsInt64(boost::json::value const &node) const noexcept;
-  bool GetInt64Value(boost::json::value const &node,
-                     int64_t &int64_value) const noexcept;
-
-  bool IsUInt64(boost::json::value const &node) const noexcept;
-  bool GetUInt64Value(boost::json::value const &node,
-                      uint64_t &uint64_value) const noexcept;
-
-  bool IsString(boost::json::value const &node) const noexcept;
-  bool GetStringValue(boost::json::value const &node,
-                      std::string &string_value) const noexcept;
-
-  bool IsArray(boost::json::value const &node) const noexcept;
-  bool
-  GetArrayNodes(boost::json::value const &node,
-                std::vector<boost::json::value> &array_value) const noexcept;
-
-  bool IsObject(boost::json::value const &node) const noexcept;
-  bool GetObjectNodes(boost::json::value const &node,
-                      std::vector<std::pair<std::string, boost::json::value>>
-                          &object_value) const noexcept;
-
-  bool IsNull(boost::json::value const &node) const noexcept;
-
-  DataType NodeType(boost::json::value const &node) const noexcept;
-
 private:
-  boost::json::value root_{nullptr};
+  JSONNode root_;
 };
 
 } // namespace json
