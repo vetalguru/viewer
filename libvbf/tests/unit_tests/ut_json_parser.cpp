@@ -4,7 +4,7 @@
 
 TEST(JsonParser, JSONDocument_IsValid_Success) {
   std::string test_json_string{"{\"valid\":\"json\"}"};
-  json::JSONDocument doc;
+  json_parser::JSONDocument doc;
   doc.Parse(test_json_string);
 
   EXPECT_TRUE(doc.IsValid());
@@ -12,7 +12,7 @@ TEST(JsonParser, JSONDocument_IsValid_Success) {
 
 TEST(JsonParser, JSONDocument_IsValid_Fail) {
   std::string test_json_string{"invalid json"};
-  json::JSONDocument doc;
+  json_parser::JSONDocument doc;
   doc.Parse(test_json_string);
 
   EXPECT_FALSE(doc.IsValid());
@@ -21,7 +21,7 @@ TEST(JsonParser, JSONDocument_IsValid_Fail) {
 TEST(JsonParser, JSONDocument_Print_Success) {
   std::string test_json_string{"{\"valid\":\"json\"}"};
   std::string expected_json_string{"{\n    \"valid\": \"json\"\n}\n"};
-  json::JSONDocument doc;
+  json_parser::JSONDocument doc;
   doc.Parse(test_json_string);
 
   ASSERT_TRUE(doc.IsValid());
@@ -35,7 +35,7 @@ TEST(JsonParser, JSONDocument_Print_Success) {
 
 TEST(JsonParser, JSONDocument_Print_Fail) {
   std::string test_json_string{"invalid json"};
-  json::JSONDocument doc;
+  json_parser::JSONDocument doc;
   doc.Parse(test_json_string);
 
   ASSERT_FALSE(doc.IsValid());

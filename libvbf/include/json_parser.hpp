@@ -7,7 +7,7 @@
 
 #include "boost/json/value.hpp"
 
-namespace json {
+namespace json_parser {
 
 class JSONDocument;
 
@@ -83,6 +83,6 @@ private:
   JSONNode root_;
 };
 
-} // namespace json
+} // namespace json_parser
 
 #endif // JSONPARSER_HPP
