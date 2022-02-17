@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
   auto const filename = argv[1];
   std::ifstream file(filename, std::ifstream::in);
   std::string input(std::istreambuf_iterator<char>(file), {});
-  json::JSONDocument json;
+  json_parser::JSONDocument json;
   json.Parse(input);
   if (json.IsValid()) {
     json.Print();

@@ -5,7 +5,7 @@
 #include "boost/json.hpp"
 #include "boost/json/src.hpp"
 
-namespace json {
+namespace json_parser {
 
 bool JSONNode::IsValid() const noexcept {
   DataType type = Type();
@@ -302,4 +302,4 @@ void JSONDocument::PrintJson(std::ostream &os, JSONNode const &node,
   }
 }
 
-} // namespace json
+} // namespace json_parser
