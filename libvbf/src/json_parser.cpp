@@ -1,8 +1,9 @@
+/**
+ *  Copyright 2022
+ */
+
 #include "json_parser.hpp"
 
-#include <iostream>
-
-#include "boost/json.hpp"
 #include "boost/json/src.hpp"
 
 namespace json_parser {
