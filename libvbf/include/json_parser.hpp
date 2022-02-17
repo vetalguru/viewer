@@ -1,15 +1,18 @@
+/**
+ *  Copyright 2022
+ */
+
 #ifndef JSONPARSER_HPP
 #define JSONPARSER_HPP
 
-#include <array>
+#include <iostream>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "boost/json/value.hpp"
 
 namespace json_parser {
-
-class JSONDocument;
 
 class JSONNode {
 public:
