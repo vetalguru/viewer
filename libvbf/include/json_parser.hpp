@@ -14,6 +14,8 @@
 
 namespace json_parser {
 
+class JSONDocument;
+
 class JSONNode {
 public:
   enum class DataType : unsigned char {
@@ -63,6 +65,8 @@ public:
 
 private:
   boost::json::value node_;
+
+  friend JSONDocument;
 };
 
 class JSONDocument {
@@ -76,11 +80,19 @@ public:
   bool IsValid() const;
   void Print() const;
 
+  JSONNode Root() const noexcept;
+
+  bool GetNodesByKey(const std::string &key, const JSONNode &root,
+                     std::vector<JSONNode> &nodes) noexcept;
+
 private:
   JSONNode ParseJsonString(const std::string &json_string) noexcept;
 
   void PrintJson(std::ostream &os, const JSONNode &node,
                  std::string indent = std::string()) const;
+
+  bool FindNodesByKey(const std::string &key, const JSONNode &root,
+                      std::vector<JSONNode> &nodes) const noexcept;
 
 private:
   JSONNode root_;
