@@ -192,6 +192,23 @@ void JSONDocument::Print() const {
     PrintJson(std::cout, root_);
 }
 
+JSONNode JSONDocument::Root() const noexcept { return root_; }
+
+bool JSONDocument::GetNodesByKey(const std::string &key, const JSONNode &root,
+                                 std::vector<JSONNode> &nodes) noexcept {
+  nodes.clear();
+
+  if (key.empty()) {
+    return false;
+  }
+
+  if (!root.IsValid()) {
+    return false;
+  }
+
+  return FindNodesByKey(key, root, nodes) && nodes.empty();
+}
+
 JSONNode
 JSONDocument::ParseJsonString(const std::string &json_string) noexcept {
   JSONNode result;
@@ -301,6 +318,31 @@ void JSONDocument::PrintJson(std::ostream &os, JSONNode const &node,
   if (indent.empty()) {
     os << "\n";
   }
+}
+
+bool JSONDocument::FindNodesByKey(const std::string &key, const JSONNode &root,
+                                  std::vector<JSONNode> &nodes) const noexcept {
+  if (!root.IsObject()) {
+    return false;
+  }
+
+  // FIXME: We shouldn't use raw node object from the boost library
+  auto const &obj = root.node_.get_object();
+  if (!obj.empty()) {
+    auto it = obj.begin();
+    for (;;) {
+      if (key == it->key()) {
+        nodes.emplace_back(it->value());
+      }
+
+      FindNodesByKey(key, it->value(), nodes);
+      if (++it == obj.end()) {
+        break;
+      }
+    }
+  }
+
+  return true;
 }
 
 } // namespace json_parser
