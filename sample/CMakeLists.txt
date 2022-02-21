@@ -2,7 +2,16 @@ cmake_minimum_required(VERSION 3.15)
 
 project(sample LANGUAGES CXX)
 
-add_executable(${PROJECT_NAME} main.cpp)
+set(HEADERS ${SAMPLE_DIR}/inc/application.hpp)
+
+set(SOURCES ${SAMPLE_DIR}/src/main.cpp
+            ${SAMPLE_DIR}/src/application.cpp)
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    ${SAMPLE_DIR}/inc)
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
